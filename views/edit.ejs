@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Edit Product</title>
+  <style>
+    .image-option {
+      border: 2px solid transparent;
+      border-radius: 5px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    .image-option.selected {
+      border-color: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Edit Product</h1>
+
+  <form action="/edit" method="POST">
+
+    <input type="hidden" name="id" value="<%= product.product_id %>">
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="<%= product.prod_name %>" required>
+
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price" value="<%= product.price %>" required>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required><%= product.description %></textarea>
+
+    <p>Current Image:</p>
+    <img src="<%= product.imageURL || '/images/no_image.jpg' %>" alt="Product Image" width="150" height="150">
+
+    <input type="hidden" name="imageID" id="imageID" value="<%= product.imageID || '' %>">
+
+    <h3>Select a New Image:</h3>
+    <div id="imageList" style="display: flex; flex-wrap: wrap;"></div>
+
+    <br>
+    <button type="submit">Update Product</button>
+  </form>
+
+  <script>
+    const imageList = document.getElementById("imageList");
+    const hiddenImageInput = document.getElementById("imageID");
+    const currentImageID = "<%= product?.imageID || '' %>";
+    const API_KEY = "d0a3a140-6c1f-4ec0-a979-c4b64d3d413c";
+  
+    async function loadImages() {
+      try {
+        const res = await fetch(`/images?apiKey=${API_KEY}`);
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const images = await res.json();
+  
+        images.forEach(img => {
+          const imgEl = document.createElement("img");
+          imgEl.src = img.imageURL;
+          imgEl.classList.add("image-option");
+          imgEl.width = 100;
+          imgEl.height = 100;
+  
+          if (img.imageID == currentImageID) {
+            imgEl.classList.add("selected");
+          }
+  
+          imgEl.addEventListener("click", () => {
+            document.querySelectorAll(".image-option").forEach(i => i.classList.remove("selected"));
+            imgEl.classList.add("selected");
+            hiddenImageInput.value = img.imageID;
+          });
+  
+          imageList.appendChild(imgEl);
+        });
+      } catch (err) {
+        imageList.innerHTML = "Could not load images.";
+        console.error("Image fetch failed:", err);
+      }
+    }
+  
+    loadImages();
+  </script>

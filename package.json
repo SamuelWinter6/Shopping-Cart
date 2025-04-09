@@ -1,0 +1,25 @@
+{
+  "name": "mar13_class",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "author": "Samuel Winter",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.14.0",
+    "nodemon": "^3.1.9",
+    "sql": "^0.78.0",
+    "uuid": "^11.1.0"
+  }
+}

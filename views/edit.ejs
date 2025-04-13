@@ -51,7 +51,7 @@
     const imageList = document.getElementById("imageList");
     const hiddenImageInput = document.getElementById("imageID");
     const currentImageID = "<%= product?.imageID || '' %>";
-    const API_KEY = "d0a3a140-6c1f-4ec0-a979-c4b64d3d413c";
+    const API_KEY = "<%= API_KEY %>";
   
     async function loadImages() {
       try {

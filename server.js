@@ -157,7 +157,7 @@ app.get("/", authenticateToken, (req, res) => {
 app.get("/new", authenticateToken, (req, res) => {
   pool.query("SELECT * FROM ImageMaster", (err, results) => {
     if (err) return res.render("error", { error: err.message });
-    res.render("new", { images: results });
+    res.render("new", { images: results, API_KEY: process.env.API_KEY});
   });
 });
 
@@ -191,7 +191,8 @@ app.get("/edit/:id", authenticateToken, (req, res) => {
 
       res.render("edit", {
         product: productResults[0],
-        images: imageResults
+        images: imageResults,
+        API_KEY: process.env.API_KEY
       });
     });
   });
